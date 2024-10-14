@@ -5,8 +5,8 @@ import TodoPage from './components/TodoPage';
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<LoginPage/>}/>
+        <Routes basename='/todo-frontend'>
+            <Route path="/" exact element={<LoginPage/>}/>
             <Route path="/user" element={<TodoPage/>} />
         </Routes>
     )
