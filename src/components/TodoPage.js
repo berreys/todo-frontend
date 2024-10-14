@@ -3,16 +3,14 @@ import { useLocation } from 'react-router-dom';
 
 const TodoPage = () => {
     const location = useLocation();
-    console.log(location); // Log location to see if state is passed correctly
     const username = location.state?.username;
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const hasFetchedRef = useRef(false); // Create a ref to track fetch status
+    const hasFetchedRef = useRef(false);
 
     useEffect(() => {
-        // Only fetch user data if username is defined and hasn't been fetched yet
         if (username && !hasFetchedRef.current) {
-            hasFetchedRef.current = true; // Mark as fetched
+            hasFetchedRef.current = true;
             fetchUserData(username);
         }
     }, [username]);
@@ -36,16 +34,59 @@ const TodoPage = () => {
         }
     };
 
+    const completeItem = async (index) => {
+        try {
+            const response = await fetch(`https://todo-backend-b066bc9bfdc1.herokuapp.com/completeTask`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": username, "index": index})
+            });
+            console.log("BEFORE", userData);
+            if (!response.ok) {
+                throw new Error('Error completing todo');
+            }
+            else{
+                setUserData((prevData) => {
+                    const updatedTasks = [...prevData.tasks];
+                    updatedTasks[index].state = 'complete'; // Toggle completion
+                    return { ...prevData, todos: updatedTasks };
+                })
+            }
+            console.log("AFTER", userData);
+        } catch (error) {
+            console.error('Error completing todo:', error);
+        }
+    };
+
     return (
         <div>
-            <h1>User Information</h1>
-            {loading ? ( // Check loading state
+            <h1>{username}'s Todo List</h1>
+            {loading ? (
                 <p>Loading user data...</p>
             ) : userData ? (
                 <div>
-                    <p>Username: {userData.username}</p>
-                    {/* Uncomment the line below when you confirm the structure of your data */}
-                    {/* <p>Email: {userData.tasks[0].state}</p> */}
+                    <ul>
+                        {userData.tasks.map((todo, index) => (
+                            <li key={index}>
+                                <span
+                                    style={{
+                                        textDecoration: todo.state === 'complete' ? 'line-through' : 'none',
+                                    }}
+                                >
+                                    {todo.text}
+                                </span>
+                                <button onClick={() => completeItem(index)}>
+                                    {todo.state === 'complete' ? 'Undo' : 'Complete'}
+                                </button>
+                                {/* <button onClick={() => editTodo(todo.id, prompt('Edit your todo:', todo.text))}>
+                                    Edit
+                                </button>
+                                <button onClick={() => removeTodo(todo.id)}>
+                                    Remove
+                                </button> */}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             ) : (
                 <p>No user data available.</p>
