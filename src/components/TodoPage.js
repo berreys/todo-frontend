@@ -15,6 +15,9 @@ const TodoPage = () => {
         }
     }, [username]);
 
+    var showPending = true;
+    var showComplete = true;
+
     const fetchUserData = async (usernameParam) => {
         setLoading(true);
         try {
@@ -45,18 +48,89 @@ const TodoPage = () => {
             if (!response.ok) {
                 throw new Error('Error completing todo');
             }
-            else{
+            else {
                 setUserData((prevData) => {
                     const updatedTasks = [...prevData.tasks];
                     updatedTasks[index].state = 'complete'; // Toggle completion
-                    return { ...prevData, todos: updatedTasks };
+                    return { ...prevData, tasks: updatedTasks };
                 })
             }
             console.log("AFTER", userData);
-        } catch (error) {
+        }
+        catch(error) {
             console.error('Error completing todo:', error);
         }
     };
+    const editItem = async (index, newText) => {
+        try {
+            console.log(newText);
+            const response = await fetch(`https://todo-backend-b066bc9bfdc1.herokuapp.com/editTask`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": username, "index": index, "newText": newText})
+            });
+            if(!response.ok) {
+                throw new Error('Error editing todo');
+            }
+            else {
+                setUserData((prevData) => {
+                    const updatedTasks = [...prevData.tasks];
+                    updatedTasks[index].text = newText;
+                    return {...prevData, tasks: updatedTasks}
+                });
+            }
+        }
+        catch(error) {
+            console.error('Error editing todo:', error);
+        }
+    };
+    const removeItem = async (index) => {
+        try{
+            const response = await fetch(`https://todo-backend-b066bc9bfdc1.herokuapp.com/removeTask`, {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": username, "index": index})
+            });
+            if(!response.ok) {
+                throw new Error('Error editing todo');
+            }
+            else {
+                setUserData((prevData) => {
+                    const updatedTasks = [...prevData.tasks];
+                    updatedTasks.splice(index, 1);
+                    return {...prevData, tasks: updatedTasks}
+                });
+            }
+        }
+        catch(error) {
+            console.error('Error removing todo:', error);
+        }
+    };
+    const addItem = async (text) => {
+        try {
+            const response = await fetch(`https://todo-backend-b066bc9bfdc1.herokuapp.com/addTask`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": username, "task": {"state": "pending", "text": text}})
+            });
+            if(!response.ok) {
+                throw new Error('Error adding todo');
+            }
+            else{
+                setUserData((prevData) => {
+                    const updatedTasks = [...prevData.tasks];
+                    updatedTasks.push({"state": "pending", "text": text});
+                    return {...prevData, tasks: updatedTasks}
+                })
+            }
+        }
+        catch(error) {
+            console.error('Error adding todo:', error);
+        }
+    }
+    const changeShowPending = () => {
+        showPending = !showPending;
+    }
 
     return (
         <div>
@@ -65,9 +139,11 @@ const TodoPage = () => {
                 <p>Loading user data...</p>
             ) : userData ? (
                 <div>
+                    <input type="checkbox" id="showPending"/>
+                        <label for="showPending" onChange={changeShowPending}>Show incomplete tasks</label>
                     <ul>
                         {userData.tasks.map((todo, index) => (
-                            <li key={index}>
+                            <li key={index} className={(todo.state === 'pending' && !showPending) || (todo.state === 'complete' && !showComplete) ? 'hide' : ''} >
                                 <span
                                     style={{
                                         textDecoration: todo.state === 'complete' ? 'line-through' : 'none',
@@ -75,18 +151,21 @@ const TodoPage = () => {
                                 >
                                     {todo.text}
                                 </span>
-                                <button onClick={() => completeItem(index)}>
+                                <button onClick={() => completeItem(index)} className={todo.state === 'pending' ? '' : 'hide'}>
                                     {todo.state === 'complete' ? 'Undo' : 'Complete'}
                                 </button>
-                                {/* <button onClick={() => editTodo(todo.id, prompt('Edit your todo:', todo.text))}>
+                                <button onClick={() => editItem(index, prompt('Edit your todo:', todo.text))}>
                                     Edit
                                 </button>
-                                <button onClick={() => removeTodo(todo.id)}>
+                                <button onClick={() => removeItem(index)}>
                                     Remove
-                                </button> */}
+                                </button>
                             </li>
                         ))}
                     </ul>
+                    <button onClick={() => addItem(prompt('Enter your todo:'))}>
+                        Add Item
+                    </button>
                 </div>
             ) : (
                 <p>No user data available.</p>
