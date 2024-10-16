@@ -1,0 +1,121 @@
+.div {
+    /* background-color: pink; */
+}
+
+.header {
+    font-family: "Nexa-Heavy";
+    font-size: xx-large;
+    text-align: center; 
+}
+
+.body-div {
+    background-color: rgba(80, 138, 177, 0.589);
+    width: 60%;
+    margin: 0 auto; 
+    padding: 3em;
+    border-radius: 5px;
+}
+
+.list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.task {
+    background-color: rgb(51, 101, 138);
+    margin-top: 1em;
+    color: white;
+    list-style-type: none;
+    width: 100%;
+    padding: 1em;
+    border-radius: 3px;
+}
+
+.task > button {
+    float: right;
+    border: none;
+    margin-left: 5px;
+}
+
+.task > button:hover {
+    cursor: pointer;
+}
+
+.remove-btn {
+    background-color: red;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    color: white;
+}
+
+.edit-btn {
+    background-color: rgb(13, 48, 75);
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    color: white;
+}
+
+.complete-btn {
+    background-color: green;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    color: white;
+}
+
+.edit-div {
+    /* background-color: pink; */
+}
+
+.edit-div > input {
+    font-family: "Nexa-Light";
+    border: none;
+    outline: none;
+    width: 60%;
+}
+
+textarea, input:focus {
+    outline: none;
+    border: none;
+}
+
+.edit-div > button {
+    border: none;
+    outline: none;
+    float: right;
+    margin-left: 5px;   
+}
+
+.edit-div > button:hover {
+    cursor: pointer;
+}
+
+.add-div {
+    margin-top: 1em;
+    width: fit-content;
+    margin: 1em auto 0 auto;
+}
+
+.add-div > input {
+    border: none;
+    font-family: "Nexa-Light";
+}
+
+.add-div > button {
+    border: none;
+    outline: none;
+    float: right;
+    margin-left: 5px;
+}
