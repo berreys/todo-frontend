@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/todo-frontend/static/css/main.16015f9c.css",
-    "main.js": "/todo-frontend/static/js/main.c83442f9.js",
+    "main.css": "/todo-frontend/static/css/main.ac896048.css",
+    "main.js": "/todo-frontend/static/js/main.beb36180.js",
+    "static/media/Nexa-Heavy.ttf": "/todo-frontend/static/media/Nexa-Heavy.13e16a1c3c48dd492fa9.ttf",
+    "static/media/Nexa-ExtraLight.ttf": "/todo-frontend/static/media/Nexa-ExtraLight.2e3441a81090afda5785.ttf",
     "index.html": "/todo-frontend/index.html",
-    "main.16015f9c.css.map": "/todo-frontend/static/css/main.16015f9c.css.map",
-    "main.c83442f9.js.map": "/todo-frontend/static/js/main.c83442f9.js.map"
+    "main.ac896048.css.map": "/todo-frontend/static/css/main.ac896048.css.map",
+    "main.beb36180.js.map": "/todo-frontend/static/js/main.beb36180.js.map"
   },
   "entrypoints": [
-    "static/css/main.16015f9c.css",
-    "static/js/main.c83442f9.js"
+    "static/css/main.ac896048.css",
+    "static/js/main.beb36180.js"
   ]
 }
