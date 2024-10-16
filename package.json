@@ -1,7 +1,7 @@
 {
   "name": "todo-frontend",
   "version": "0.1.0",
-  "homepage": "https://berreys.github.io/todo-frontend",
+  "homepage": "https://todo.samberrey.com",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
